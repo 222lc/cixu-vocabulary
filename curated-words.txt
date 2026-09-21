@@ -1,0 +1,171 @@
+abnormal | 不正常
+above | 上面的，上述的
+abrade | 磨损，摩擦
+abrasion | 磨损
+AC | 交流电
+accomplish | 完成
+acceptable | 可接受的，合意的
+Acceptable Deferred Defects (ADD) | 可接受的延期缺陷
+access panel | 检修板
+accessory | 附件
+accommodate | 供应,使适应，调节，向...提供，容纳
+according to | 依照
+accumulate | 蓄压器
+accuracy | 精确性，正确度
+acoustic | 有关声音的，声学的
+across | 越过，交叉，横过
+active | 积极的,能起作用的
+actuate | 驱动
+adapter | 适配器
+add | 增加
+additional | 附加的
+adequate | 适当的，足够的
+adhesive | 粘合剂
+adjust | 调校
+adp: air driven pump | 气动液压泵
+advance | 前进，提升，提前
+advice | 建议
+aft flap | 后沿襟翼后翼
+after | 在...之后，在...后面，后来的，后面的
+again | 再一次
+aging | 老化
+aileron | 副翼
+air | 空气
+air conditioning pack | 空调机
+airbus | 空中客车（飞机制造厂）
+aircraft | 航空器
+aircraft in charge (AIC) | 机主（飞机负责人）
+Aircraft Maintenance Manual (AMM) | 飞机维修手册
+airflow | 气流
+airframe | 机身
+airplane | 飞机
+airworthiness | 适航性
+Airworthiness Notice (AN) | 适航通告
+aisle | 过道
+alarm bell | 警报铃
+align | 对齐，排列
+alignment | 队列，排列成行
+all | 所有
+All Nippon Airlines (ANA) | 全日空航空公司
+allow | 允许
+allowable | 允许的，正当的，可承认的
+along | 往前，向前；沿着
+alternative | 二中择一，可供选择的办法，事物
+altimeter | 高度表
+altitude | 高度
+aluminum (AL) | 铝
+always | 总是，永远，始终
+amber | 琥珀色(黄色)的
+ambient | 周围环境
+among | 在...之中
+amount | 数量
+anchor nut | 固定螺帽
+and | 同，和，与
+angle | 角,角度
+Angle of attack (AOA) | 飞机迎角，攻角
+antenna | 天线
+anti-icing | 防冰
+anti-rotation | 防止转动
+anti-seize | 防止-卡位
+anti-skid | 刹车防滑系统
+antistatic | 抗静电的
+applicable | 可适用的，可应用的
+apply | 施加，应用
+approach | 接近；趋近
+approve | 授权
+approximately | 近似地，大约
+April(Apr) | 四月
+APU | 辅助动力装置
+area | 区域,面积
+arm | 手臂，装备
+arrive | 到达
+as per | 根据
+as required (AR) | 按要求
+as shown | 如图所示
+assemble | 组装；装配
+assembly | 组件
+assistance | 协助，援助
+assistance engineer | 助理工程师
+at | 在
+ATC: air traffic control | 空中交通管制
+attach | 附接
+attach fitting | 安装接头
+attachment | 附属品,附件
+attitude | 姿态
+August(Aug) | 八月
+auto brake | 自动刹车
+automatic | 自动的，无意识的，机械的
+available | 可用到的；可获得的
+avoid | 避免
+away | adv.在远处,离去
+axe | 斧头
+back | 在后面
+baffle | 缓冲隔板
+balance | 平衡,均衡
+balance tab | 随动补偿片
+balance weigh | 配重块
+ball nut | 球形螺母
+bar | 杆,棒
+barrier | 屏障
+base | 底部，基础
+battery | 电池，电瓶
+battery bus | 电瓶汇流条
+bay | 隔舱
+bearing | 轴承
+because | 因为
+become | 变成，成为，变得
+before | 在...之前
+behind | 在...之后
+below | 在下面
+belt | 皮带
+bend | 弯曲
+between | 在...之间
+beyond | 超过，超出，除...以外
+bin | 箱柜
+blank | 空白的；封盖
+blanket | n.毯子,覆盖
+bleed air | 引气
+block | 阻塞
+blueprint | 蓝图
+board | 木板，客舱内
+body | 身体，主要部分
+body buttock line(BBL) | 纵剖线
+body landing gear | 机身起落架
+Body Station(BS) | 机体站位
+Boeing | 波音公司（飞机制造厂）
+bogie | 转向架
+bolt | 螺栓
+bonding | 连[搭，焊，胶，粘]接，结[耦，焊，接]合，压焊
+Bonding Jumper | 搭接跳线
+boost pump | 增压泵
+borescope | 孔探仪
+both | 两者，双方的
+bottle | 用瓶装，瓶子
+bottom | 底部
+box | 箱,盒
+bracket | 托架
+break | 打碎
+breathe | 呼吸，发出
+broken | 破裂
+bulk cargo | 散货舱
+bulkhead | 隔板
+bushing | 衬套
+button | 按钮
+bypass v/v | 旁通活门
+cabin | 客舱
+cable | 钢索
+calculate | 计算
+calibrate | 校准
+call | 呼叫，召集，称呼，认为，命名，打电话
+cancel | 取消，删去
+cannot | 不能
+canoe fairing | 船形整流罩
+cap | 盖
+care | 注意，照料，照顾
+careful | 小心的，仔细的
+cargo | (车、船、飞机等运输的)货物
+carpet | 地毯
+carry | 进位，射程、运载，运送，支持，支撑
+carry out | 执行,进行
+cart lift | 电梯
+casing | 外壳

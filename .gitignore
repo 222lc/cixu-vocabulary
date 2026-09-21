@@ -1,0 +1,5 @@
+.tools/
+.ocr-temp/
+.edge-test-profile*/
+*.zip
+*-check.png

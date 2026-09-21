@@ -1,0 +1,19 @@
+{
+  "name": "词序 · 英语单词练习",
+  "short_name": "词序",
+  "description": "支持选择题、中译英、英译中、拼写题和错题重练的离线英语单词工具。",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f7f2",
+  "theme_color": "#f4f7f2",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

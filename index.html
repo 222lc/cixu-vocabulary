@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="一个可离线使用的英语单词练习工具，支持选择题、中译英、英译中与拼写题。"
+    />
+    <meta name="theme-color" content="#f4f7f2" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="词序" />
+    <title>词序 · 英语单词练习</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <div class="drawer-scrim" id="drawerScrim" aria-hidden="true"></div>
+
+      <aside class="library-panel" id="libraryPanel" aria-label="词库">
+        <header class="brand-bar">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+            </svg>
+          </div>
+          <div>
+            <h1>词序</h1>
+            <p>把记住，变成确定</p>
+          </div>
+          <button class="icon-button close-library" id="closeLibraryButton" type="button" aria-label="关闭词库" title="关闭词库">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </header>
+
+        <div class="library-toolbar">
+          <button class="primary-small" id="addWordButton" type="button">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14" />
+              <path d="M12 5v14" />
+            </svg>
+            添加单词
+          </button>
+          <button class="icon-button" id="importButton" type="button" aria-label="批量导入" title="批量导入">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <path d="m17 8-5-5-5 5" />
+              <path d="M12 3v12" />
+            </svg>
+          </button>
+          <button class="icon-button" id="exportButton" type="button" aria-label="导出词库" title="导出词库">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <path d="m7 10 5 5 5-5" />
+              <path d="M12 15V3" />
+            </svg>
+          </button>
+        </div>
+
+        <label class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+          <input id="wordSearch" type="search" placeholder="搜索英文或中文" autocomplete="off" />
+        </label>
+
+        <div class="library-meta">
+          <span id="libraryCount">0 个词</span>
+          <button id="clearLibraryButton" type="button">清空</button>
+        </div>
+
+        <div class="word-list" id="wordList"></div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <button class="icon-button mobile-menu" id="openLibraryButton" type="button" aria-label="打开词库" title="打开词库">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 12h16" />
+              <path d="M4 6h16" />
+              <path d="M4 18h16" />
+            </svg>
+          </button>
+          <div class="topbar-title">
+            <span class="status-dot"></span>
+            <span id="headerStatus">词库已保存在本机</span>
+          </div>
+          <div class="quick-stats" aria-label="练习概览">
+            <span>
+              <strong id="totalAnswered">0</strong>
+              已答
+            </span>
+            <span>
+              <strong id="overallAccuracy">--</strong>
+              正确率
+            </span>
+            <span>
+              <strong id="bestStreak">0</strong>
+              最佳连对
+            </span>
+          </div>
+        </header>
+
+        <section class="view setup-view" id="setupView">
+          <div class="setup-heading">
+            <span class="eyebrow">练习设置</span>
+            <h2>今天想怎么背？</h2>
+            <p>每次练习都会重新打乱题目和选项顺序。</p>
+          </div>
+
+          <div class="setup-panel">
+            <div class="section-label">
+              <span>题目类型</span>
+              <span id="availableModeHint">按当前词库生成题目</span>
+            </div>
+            <div class="mode-grid" id="modeGrid">
+              <button class="mode-option selected" type="button" data-mode="mixed">
+                <span class="mode-icon">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="m16 3 4 4-4 4" />
+                    <path d="M20 7H4" />
+                    <path d="m8 21-4-4 4-4" />
+                    <path d="M4 17h16" />
+                  </svg>
+                </span>
+                <span>
+                  <strong>混合随机</strong>
+                  <small>方向随机切换</small>
+                </span>
+                <span class="mode-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="m5 12 4 4L19 6" />
+                  </svg>
+                </span>
+              </button>
+              <button class="mode-option" type="button" data-mode="en-zh">
+                <span class="mode-icon">EN</span>
+                <span>
+                  <strong>英译中</strong>
+                  <small>看英文选释义</small>
+                </span>
+                <span class="mode-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="m5 12 4 4L19 6" />
+                  </svg>
+                </span>
+              </button>
+              <button class="mode-option" type="button" data-mode="zh-en">
+                <span class="mode-icon">中</span>
+                <span>
+                  <strong>中译英</strong>
+                  <small>看释义选英文</small>
+                </span>
+                <span class="mode-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="m5 12 4 4L19 6" />
+                  </svg>
+                </span>
+              </button>
+              <button class="mode-option" type="button" data-mode="spelling">
+                <span class="mode-icon">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M4 7V4h16v3" />
+                    <path d="M9 20h6" />
+                    <path d="M12 4v16" />
+                  </svg>
+                </span>
+                <span>
+                  <strong>拼写题</strong>
+                  <small>看中文拼英文</small>
+                </span>
+                <span class="mode-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="m5 12 4 4L19 6" />
+                  </svg>
+                </span>
+              </button>
+            </div>
+
+            <div class="settings-grid">
+              <label class="field">
+                <span>题目数量</span>
+                <select id="questionCount">
+                  <option value="10">10 题</option>
+                  <option value="20">20 题</option>
+                  <option value="30">30 题</option>
+                  <option value="all">全部单词</option>
+                </select>
+              </label>
+              <label class="field" id="optionCountField">
+                <span>选项数量</span>
+                <select id="optionCount">
+                  <option value="3">3 个选项</option>
+                  <option value="4" selected>4 个选项</option>
+                  <option value="5">5 个选项</option>
+                </select>
+              </label>
+              <label class="switch-field">
+                <span>
+                  <strong>薄弱词优先</strong>
+                  <small>错得多的词更容易出现</small>
+                </span>
+                <input id="weakFirst" type="checkbox" checked />
+                <span class="switch" aria-hidden="true"></span>
+              </label>
+            </div>
+          </div>
+
+          <button class="start-button" id="startButton" type="button">
+            <span>开始练习</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14" />
+              <path d="m13 6 6 6-6 6" />
+            </svg>
+          </button>
+
+          <div class="overview-strip">
+            <div>
+              <span class="overview-icon green">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                </svg>
+              </span>
+              <span>
+                <small>词库总量</small>
+                <strong id="overviewWords">0</strong>
+              </span>
+            </div>
+            <div>
+              <span class="overview-icon amber">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 2" />
+                </svg>
+              </span>
+              <span>
+                <small>待加强</small>
+                <strong id="overviewWeak">0</strong>
+              </span>
+            </div>
+            <div>
+              <span class="overview-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="m12 3 2.6 5.3 5.9.9-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.9z" />
+                </svg>
+              </span>
+              <span>
+                <small>已掌握</small>
+                <strong id="overviewMastered">0</strong>
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section class="view quiz-view" id="quizView" hidden>
+          <div class="quiz-header">
+            <div>
+              <span class="eyebrow" id="questionModeLabel">混合随机</span>
+              <span class="question-counter" id="questionCounter">第 1 / 10 题</span>
+            </div>
+            <button class="text-button" id="quitQuizButton" type="button">结束本轮</button>
+          </div>
+
+          <div class="progress-track" aria-hidden="true">
+            <span id="progressBar"></span>
+          </div>
+
+          <div class="question-stage">
+            <div class="question-title-row">
+              <div>
+                <span class="direction-label" id="directionLabel">英译中</span>
+                <h2 class="question-prompt" id="questionPrompt">word</h2>
+                <p class="phonetic" id="phoneticText"></p>
+              </div>
+              <button class="icon-button pronounce-button" id="pronounceButton" type="button" aria-label="朗读单词" title="朗读单词">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M11 5 6 9H3v6h3l5 4z" />
+                  <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                  <path d="M18.5 5.5a9 9 0 0 1 0 13" />
+                </svg>
+              </button>
+            </div>
+
+            <div class="options-grid" id="optionsGrid"></div>
+
+            <form class="spelling-form" id="spellingForm" hidden>
+              <label for="spellingInput">写出对应英文单词</label>
+              <div class="spelling-input-row">
+                <input
+                  id="spellingInput"
+                  type="text"
+                  autocomplete="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                  placeholder="输入英文单词"
+                />
+                <button class="primary-button" type="submit">检查</button>
+              </div>
+            </form>
+
+            <div class="feedback-panel" id="feedbackPanel" hidden>
+              <div class="feedback-icon" id="feedbackIcon"></div>
+              <div class="feedback-copy">
+                <strong id="feedbackTitle">回答正确</strong>
+                <p id="feedbackText"></p>
+                <p class="example-text" id="exampleText" hidden></p>
+              </div>
+              <button class="primary-button" id="nextButton" type="button">
+                <span>下一题</span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M5 12h14" />
+                  <path d="m13 6 6 6-6 6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="view result-view" id="resultView" hidden>
+          <div class="result-hero">
+            <div class="score-ring" id="scoreRing" style="--score: 0">
+              <div>
+                <strong id="scorePercent">0%</strong>
+                <span>正确率</span>
+              </div>
+            </div>
+            <div class="result-copy">
+              <span class="eyebrow">本轮完成</span>
+              <h2 id="resultTitle">稳步推进</h2>
+              <p id="resultSummary">这一轮练习已经完成。</p>
+            </div>
+          </div>
+
+          <div class="result-stats">
+            <div>
+              <span>答对</span>
+              <strong id="resultCorrect">0</strong>
+            </div>
+            <div>
+              <span>答错</span>
+              <strong id="resultWrong">0</strong>
+            </div>
+            <div>
+              <span>用时</span>
+              <strong id="resultTime">0:00</strong>
+            </div>
+            <div>
+              <span>最长连对</span>
+              <strong id="resultStreak">0</strong>
+            </div>
+          </div>
+
+          <div class="review-section" id="reviewSection" hidden>
+            <div class="section-heading-row">
+              <h3>本轮错题</h3>
+              <span id="reviewCount">0 个</span>
+            </div>
+            <div class="review-list" id="reviewList"></div>
+          </div>
+
+          <div class="result-actions">
+            <button class="secondary-button" id="backToSetupButton" type="button">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M19 12H5" />
+                <path d="m11 18-6-6 6-6" />
+              </svg>
+              返回设置
+            </button>
+            <button class="secondary-button" id="retryWrongButton" type="button">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+                <path d="M3 3v5h5" />
+              </svg>
+              重练错题
+            </button>
+            <button class="primary-button" id="restartButton" type="button">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+                <path d="M3 3v5h5" />
+              </svg>
+              再来一轮
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="modal import-modal" id="importDialog">
+      <form method="dialog" class="modal-shell" id="importForm">
+        <header class="modal-header">
+          <div>
+            <span class="eyebrow">批量导入</span>
+            <h2>粘贴你的单词</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="关闭" title="关闭">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </header>
+
+        <div class="modal-body">
+          <div class="ocr-import-panel">
+            <div class="ocr-import-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M14.5 4h-5L8 6H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-4z" />
+                <circle cx="12" cy="13" r="4" />
+              </svg>
+            </div>
+            <div class="ocr-import-copy">
+              <strong>拍照识别单词</strong>
+              <small id="ocrStatus">可一次选择多张图片，识别后自动整理</small>
+            </div>
+            <button class="secondary-button" id="ocrPhotoButton" type="button">选择照片</button>
+            <input id="ocrFileInput" type="file" accept="image/*" multiple hidden />
+          </div>
+          <p class="format-help">每行一个词，也可以直接粘贴微信或 OCR 文本，系统会自动整理。</p>
+          <div class="curated-import-row">
+            <button class="text-button" id="loadCuratedButton" type="button">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3v12" />
+                <path d="m7 10 5 5 5-5" />
+                <path d="M5 21h14" />
+              </svg>
+              载入校对词表
+            </button>
+            <span id="curatedImportStatus"></span>
+          </div>
+          <textarea
+            id="importText"
+            spellcheck="false"
+            placeholder="abandon | 放弃；抛弃 | əˈbændən | Never abandon your goals."
+          ></textarea>
+          <div class="import-controls">
+            <button class="secondary-button" id="chooseFileButton" type="button">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5z" />
+                <path d="M14 2v6h6" />
+              </svg>
+              选择文件
+            </button>
+            <input id="fileInput" type="file" accept=".txt,.csv,.tsv,text/plain" hidden />
+            <div class="segmented" id="importMode">
+              <label>
+                <input type="radio" name="importMode" value="merge" checked />
+                <span>追加并更新</span>
+              </label>
+              <label>
+                <input type="radio" name="importMode" value="replace" />
+                <span>替换词库</span>
+              </label>
+            </div>
+          </div>
+          <p class="form-message" id="importMessage" role="status"></p>
+        </div>
+
+        <footer class="modal-footer">
+          <button class="text-button" type="button" data-close-dialog>取消</button>
+          <button class="primary-button" id="confirmImportButton" type="submit">导入词库</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="modal word-modal" id="wordDialog">
+      <form method="dialog" class="modal-shell" id="wordForm">
+        <header class="modal-header">
+          <div>
+            <span class="eyebrow" id="wordModalEyebrow">添加单词</span>
+            <h2 id="wordModalTitle">新建词条</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="关闭" title="关闭">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </header>
+
+        <div class="modal-body">
+          <input id="editingWordId" type="hidden" />
+          <div class="form-grid">
+            <label class="field full">
+              <span>英文单词 *</span>
+              <input id="wordEn" type="text" autocomplete="off" spellcheck="false" required />
+            </label>
+            <label class="field full">
+              <span>中文释义 *</span>
+              <input id="wordZh" type="text" autocomplete="off" required />
+            </label>
+            <label class="field full">
+              <span>音标</span>
+              <input id="wordPhonetic" type="text" autocomplete="off" spellcheck="false" />
+            </label>
+            <label class="field full">
+              <span>例句</span>
+              <textarea id="wordExample" rows="3"></textarea>
+            </label>
+          </div>
+          <p class="form-message error" id="wordMessage" role="status"></p>
+        </div>
+
+        <footer class="modal-footer">
+          <button class="text-button" type="button" data-close-dialog>取消</button>
+          <button class="primary-button" type="submit">保存单词</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+    <script src="app.js"></script>
+    <script>
+      if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./sw.js").catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>
