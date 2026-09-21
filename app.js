@@ -115,6 +115,7 @@ const elements = {
   ocrPhotoButton: document.querySelector("#ocrPhotoButton"),
   ocrFileInput: document.querySelector("#ocrFileInput"),
   ocrStatus: document.querySelector("#ocrStatus"),
+  ocrImportPanel: document.querySelector("#ocrImportPanel"),
   loadCuratedButton: document.querySelector("#loadCuratedButton"),
   curatedImportStatus: document.querySelector("#curatedImportStatus"),
   wordDialog: document.querySelector("#wordDialog"),
@@ -138,7 +139,14 @@ function initialize() {
   renderLibrary();
   renderOverview();
   updateSessionSetup();
+  configureHostedFeatures();
   void syncWordsFromCloud({ silent: true });
+}
+
+function configureHostedFeatures() {
+  if (typeof location !== "undefined" && /\.github\.io$/i.test(location.hostname)) {
+    elements.ocrImportPanel.hidden = true;
+  }
 }
 
 function createWord(source, existing = {}) {

@@ -1,4 +1,4 @@
-const CACHE_NAME = "cixu-v5";
+const CACHE_NAME = "cixu-v6";
 const APP_FILES = [
   "./",
   "./index.html",
